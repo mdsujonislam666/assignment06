@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green-Earth</title>
+    <!-- css link -->
+    <link rel="stylesheet" href="./style.css">
 
     <!-- tailwind and daisy ui link -->
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -31,8 +33,8 @@
     </style>
 </head>
 
-<body>
-    <header>
+<body class="max-w-full">
+    <header class="">
         <!-- first nav -->
         <div class="navbar bg-[#15803D] shadow-sm px-20">
             <div class="navbar-start">
@@ -65,7 +67,7 @@
         </div>
 
         <!-- second nav -->
-        <section class="flex items-center bg-[#CFF0DC]">
+        <section class="flex flex-row bg:flex-col items-center bg-[#CFF0DC]">
             <div>
                 <img src="./assets/hero-leaf1.png" alt="" srcset="">
             </div>
@@ -81,21 +83,51 @@
             </div>
         </section>
     </header>
+
     <main>
         <!-- Trees section -->
-         <section class="bg-[#dbdddc]">
-            <div class="grid grid-cols-1">
+        <section class="bg-[#dbdddc] justify-between grid grid-cols-6 gap-5 px-10 pt-10">
+            <div class="grid grid-cols-1 col-span-1 w-full h-[479px]">
                 <h2 class="font-bold text-xl text-black">Categories</h2>
-                <button class="btn btn-outline hover:text-white hover:bg-[#15803D] flex justify-start">Primary</button>
+                <button onclick="allCategoriesCard()" id="all-categories-button"
+                    class="transparent-btn outline-none p-1 rounded-sm  hover:text-white bg-green-600 text-white flex justify-start">All
+                    Trees</button>
                 <div id="all-categories">
-                    
+
                 </div>
             </div>
-            <div></div>
-            <div></div>
-         </section>
-    </main>
+            <div id="card-container" class="grid col-span-4 grid-cols-3 gap-5">
 
+            </div>
+
+            <div class="grid grid-cols-1 col-span-1  bg-white px-2
+                 py-5 w-full h-full">
+                <h2 class="text-xl font-bold">Your Cart</h2>
+                <div id="historyContainer" >
+
+                </div>
+                <div class="flex justify-between font-bold">
+                    <h2>Total:</h2>
+                    <h2>$1000</h2>
+                </div>
+            </div>
+
+
+
+
+        </section>
+
+        <!-- Open the modal using ID.showModal() method -->
+        <!-- <button class="btn" onclick="my_modal_5.showModal()">open modal</button> -->
+        <dialog id="name_modal" class="modal modal-bottom sm:modal-middle">
+            <div class="modal-box">
+                <div id="informationContainer">
+
+                </div>
+
+            </div>
+        </dialog>
+    </main>
     <script src="script.js"></script>
 
 </body>
