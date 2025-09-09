@@ -205,6 +205,7 @@ allCategoriesCard();
 
 
 const loadCategoriesData = (categoriesId) => {
+    manageSpinner(true);
     const url = `https://openapi.programming-hero.com/api/category/${categoriesId}`;
     fetch(url)
         .then((res) => res.json())
@@ -228,7 +229,7 @@ const displayCategoriesData = (datas) => {
         const card = document.createElement("div");
         card.innerHTML = `<div class="bg-white p-5 space-y-3 h-full  rounded-xl">
                     <img class="w-full h-50 rounded-xl" src="${data.image}" alt="">
-                    <h2 class="text-xl font-bold">${data.name}</h2>
+                    <h2 onclick="loadModal(${data.id})" class="text-xl font-bold cursor-pointer">${data.name}</h2>
                     <p>${data.description}</p>
                     <div class="flex items-center justify-between">
                         <button class="btn btn-prymary rounded-3xl bg-green-500">${data.category}</button>
@@ -237,6 +238,7 @@ const displayCategoriesData = (datas) => {
                     <button onclick="loadHistory(${data.id})" class="btn btn-active btn-success rounded-3xl  w-full hover:text-white hover:bg-[#15803D] ">Add to Cart</button>
                 </div>`;
         cardContainer.append(card);
+        manageSpinner(false);
     });
 
 };
