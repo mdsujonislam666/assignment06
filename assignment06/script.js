@@ -33,53 +33,6 @@ const allCategoriesCard = () => {
         })
 };
 
-
-// category: "Fruit Tree"
-// description: "A fast-growing tropical tree that produces delicious, juicy mangoes during summer. Its dense green canopy offers shade, while its sweet fruits are rich in vitamins and minerals."
-// id: 1
-// image: "https://i.ibb.co.com/cSQdg7tf/mango-min.jpg"
-// name: "Mango Tree"
-// price: 500
-
-// const loadHistory = (id) => {
-//     fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
-//         .then((res) => res.json())
-//         .then((data) => {
-//             displayHistory(data.plants)
-
-//         } )
-// }
-
-// const displayHistory = (details) => {
-//     console.log(details);
-//     const historyBox = document.getElementById('historyContainer');
-//     historyBox.innerHTML += "";
-
-//     const items = Array.isArray(details) ? details : [details];
-
-
-
-//     items.forEach(detail => {
-//         alert(`${detail.name} has been added to the cart.`);
-//         const historyCard = document.createElement("div");
-//         historyCard.innerHTML = `<div id="cart-${detail.id}"  class="flex justify-between bg-[#dbdddc] rounded-xl p-3 w-full h-[70px]">
-//                     <div>
-//                         <h2 class="font-bold">${detail.name}</h2>
-//                         <p>$${detail.price} x 1</p>
-//                     </div>
-//                     <div>
-//                         <button id="deleteCart-${detail.id}" class="transparent outline-none p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-//                     </div>
-//                 </div>`;
-//         historyBox.appendChild(historyCard);
-//         document.getElementById(`deleteCart-${detail.id}`).addEventListener('click', function () {
-//             const removeHistoryContainer = document.getElementById(`cart-${detail.id}`).style.display = "none";
-//         })
-
-//     })
-// }
-// loadHistory();
-
 let cardHistory = [];
 
 const cardContainer = document.getElementById('card-container').addEventListener('click', (e) => {
@@ -93,8 +46,6 @@ const handleHistory = (e) => {
     const price = e.target.parentNode.children[3].children[1].innerText;
     const name = e.target.parentNode.children[1].innerText;
     const id = e.target.parentNode.id;
-    // console.log(id);
-    // console.log(name);
     alert(`${name} has been added to the cart.`);
 
     cardHistory.push({
@@ -122,29 +73,25 @@ const showHistory = (cardHistory) => {
             <h2 class ="font-bold">${history.name}</h2>
             <h3>${history.price}</h3>
         </div>
-        <button  onclick="handleDeleteBookmark(${history.id})" class="transparent outline-none p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button> 
+        <button  onclick="handleDeleteBookmark(${history.id})" class="transparent outline-none p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
         </div>`;
 
 
     })
 
 };
-const handleDeleteBookmark = (bookmarkId) => {
-            console.log(bookmarkId);
-            const removeHistoryContainer = document.getElementById(`cartId-(${bookmarkId})`).style.display = "none";
-        }
 
-// const handleDeleteBookmark = (bookmarkId) =>{
-//     console.log(bookmarkId);
-//     const filteredBookmarks = cardHistory.filter(id => {
-//         console.log(id);
-//         if(id.id === bookmarkId ){
-//             document.getElementById(`cartId-(${bookmarkId})`).style.display = "none";
-//         }
-//     })
-//     cardHistory = filteredBookmarks;
-//     showHistory(cardHistory);
-// }
+const handleDeleteBookmark = (bookmarkId) =>{
+    console.log(bookmarkId);
+    const filteredBookmarks = cardHistory.filter(id => {
+        console.log(id);
+        if(id.id === bookmarkId ){
+            document.getElementById(`cartId-(${bookmarkId})`).style.display = "none";
+        }
+    })
+    cardHistory = filteredBookmarks;
+    showHistory(cardHistory);
+}
 
 
 
