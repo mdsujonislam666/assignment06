@@ -86,35 +86,41 @@
 
     <main>
         <!-- Trees section -->
-        <section class="bg-[#dbdddc] justify-between grid grid-cols-6 gap-5 px-10 pt-10">
-            <div class="grid grid-cols-1 col-span-1 w-full h-[479px]">
-                <h2 class="font-bold text-xl text-black">Categories</h2>
-                <button onclick="allCategoriesCard()" id="all-categories-button"
-                    class="transparent-btn outline-none p-1 rounded-sm  hover:text-white bg-green-600 text-white flex justify-start">All
-                    Trees</button>
-                <div id="all-categories">
+        <section id="spinner" class="flex justify-center items-center py-10 hidden" >
+            <span class="loading loading-dots loading-xl"></span>
+        </section>
+        <section class="bg-[#dbdddc]">
+            <h1 class="flex justify-center text-3xl font-bold pt-20">Choose Your Trees</h1>
+            <div id="word-container" class="justify-between grid grid-cols-3 lg:grid-cols-6 gap-5 px-10 pt-10">
+                <div class="grid lg:grid-cols-1 lg:col-span-1 w-[350px] lg:w-full h-[479px]">
+                    <h2 class="font-bold text-xl text-black">Categories</h2>
+                    <button onclick="allCategoriesCard()" id="all-categories-button"
+                        class="transparent-btn outline-none p-1 rounded-sm  hover:text-white bg-green-600 text-white flex justify-center lg:justify-start">All
+                        Trees</button>
+                    <div id="all-categories">
+
+                    </div>
+                </div>
+                <div id="card-container" class="grid col-span-4 grid-cols-1 lg:grid-cols-3 gap-5">
 
                 </div>
-            </div>
-            <div id="card-container" class="grid col-span-4 grid-cols-3 gap-5">
 
-            </div>
+                <div id="historyCartContainer" class="rounded-xl  bg-white px-2
+                 py-5 w-[350px] lg:w-full">
+                    <h2 class="text-xl font-bold">Your Cart</h2>
+                    <div id="historyContainer">
 
-            <div class="grid grid-cols-1 col-span-1  bg-white px-2
-                 py-5 w-full h-full">
-                <h2 class="text-xl font-bold">Your Cart</h2>
-                <div id="historyContainer" >
-
+                    </div>
+                    <div class="flex justify-between font-bold">
+                        <h2>Total:</h2>
+                        <h2 id="totalCount">0</h2>
+                    </div>
                 </div>
-                <div class="flex justify-between font-bold">
-                    <h2>Total:</h2>
-                    <h2>$1000</h2>
-                </div>
+
+
+
+
             </div>
-
-
-
-
         </section>
 
         <!-- Open the modal using ID.showModal() method -->
@@ -127,6 +133,10 @@
 
             </div>
         </dialog>
+
+        <section class="pt-20 bg-[#dbdddc]">
+            <h2 class="text-4xl font-bold text-center">About the Campaign</h2>
+        </section>
     </main>
     <script src="script.js"></script>
 

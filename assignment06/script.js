@@ -1,9 +1,10 @@
 const loadCategories = () => {
+    manageSpinner(true);
     fetch("https://openapi.programming-hero.com/api/categories")
         .then((res) => res.json())
         .then((categories) => {
             displayCategories(categories.categories)
-        } )
+        })
 };
 
 const removeActive = () => {
@@ -11,7 +12,19 @@ const removeActive = () => {
     categoriesButton.forEach((btn) => btn.classList.remove('active'));
 }
 
+const manageSpinner = (status) =>{
+    if(status === true){
+        document.getElementById('spinner').classList.remove("hidden");
+        document.getElementById('card-container').classList.add("hidden");
+    }
+    else{
+        document.getElementById('card-container').classList.remove("hidden");
+        document.getElementById('spinner').classList.add("hidden");
+    }
+}
+
 const allCategoriesCard = () => {
+    manageSpinner(true);
     fetch("https://openapi.programming-hero.com/api/plants")
         .then((res) => res.json())
         .then((data) => {
@@ -28,47 +41,115 @@ const allCategoriesCard = () => {
 // name: "Mango Tree"
 // price: 500
 
-const loadHistory = (id) => {
-    fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
-        .then((res) => res.json())
-        .then((data) => {
-            displayHistory(data.plants)
+// const loadHistory = (id) => {
+//     fetch(`https://openapi.programming-hero.com/api/plant/${id}`)
+//         .then((res) => res.json())
+//         .then((data) => {
+//             displayHistory(data.plants)
 
-        } )
-}
+//         } )
+// }
 
-const displayHistory = (details) => {
-    console.log(details);
-    const historyBox = document.getElementById('historyContainer');
-    historyBox.innerHTML += "";
+// const displayHistory = (details) => {
+//     console.log(details);
+//     const historyBox = document.getElementById('historyContainer');
+//     historyBox.innerHTML += "";
 
-    const items = Array.isArray(details) ? details : [details];
+//     const items = Array.isArray(details) ? details : [details];
 
 
 
-    items.forEach(detail => {
-        alert(`${detail.name} has been added to the cart.`);
-        const historyCard = document.createElement("div");
-        historyCard.innerHTML = `<div id="cart-${detail.id}"  class="flex justify-between bg-[#dbdddc] rounded-xl p-3 w-full h-[70px]">
-                    <div>
-                        <h2 class="font-bold">${detail.name}</h2>
-                        <p>$${detail.price} x 1</p>
-                    </div>
-                    <div>
-                        <button id="deleteCart-${detail.id}" class="transparent outline-none p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
-                    </div>
-                </div>`;
-        historyBox.appendChild(historyCard);
-        document.getElementById(`deleteCart-${detail.id}`).addEventListener('click', function () {
-            const removeHistoryContainer = document.getElementById(`cart-${detail.id}`).style.display = "none";
-        })
+//     items.forEach(detail => {
+//         alert(`${detail.name} has been added to the cart.`);
+//         const historyCard = document.createElement("div");
+//         historyCard.innerHTML = `<div id="cart-${detail.id}"  class="flex justify-between bg-[#dbdddc] rounded-xl p-3 w-full h-[70px]">
+//                     <div>
+//                         <h2 class="font-bold">${detail.name}</h2>
+//                         <p>$${detail.price} x 1</p>
+//                     </div>
+//                     <div>
+//                         <button id="deleteCart-${detail.id}" class="transparent outline-none p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+//                     </div>
+//                 </div>`;
+//         historyBox.appendChild(historyCard);
+//         document.getElementById(`deleteCart-${detail.id}`).addEventListener('click', function () {
+//             const removeHistoryContainer = document.getElementById(`cart-${detail.id}`).style.display = "none";
+//         })
+
+//     })
+// }
+// loadHistory();
+
+let cardHistory = [];
+
+const cardContainer = document.getElementById('card-container').addEventListener('click', (e) => {
+    if (e.target.innerText === 'Add to Cart') {
+        handleHistory(e);
+    }
+})
+
+const handleHistory = (e) => {
+    console.log('add to cart clicked');
+    const price = e.target.parentNode.children[3].children[1].innerText;
+    const name = e.target.parentNode.children[1].innerText;
+    const id = e.target.parentNode.id;
+    // console.log(id);
+    // console.log(name);
+    alert(`${name} has been added to the cart.`);
+
+    cardHistory.push({
+        price: price,
+        name: name,
+        id: id
+    })
+
+    showHistory(cardHistory);
+
+};
+
+const showHistory = (cardHistory) => {
+    console.log(cardHistory);
+    const totalCount = document.getElementById('totalCount');
+
+    const historyContainer = document.getElementById('historyContainer');
+    historyContainer.innerHTML = "";
+
+    let count = 0;
+    cardHistory.forEach(history => {
+        historyContainer.innerHTML += `
+        <div id ="cartId-(${history.id})" class ="flex justify-between border my-2 p-2 rounded-sm">
+        <div>
+            <h2 class ="font-bold">${history.name}</h2>
+            <h3>${history.price}</h3>
+        </div>
+        <button  onclick="handleDeleteBookmark(${history.id})" class="transparent outline-none p-2 cursor-pointer"><i class="fa-solid fa-xmark"></i></button> 
+        </div>`;
+
 
     })
-}
-loadHistory();
+
+};
+const handleDeleteBookmark = (bookmarkId) => {
+            console.log(bookmarkId);
+            const removeHistoryContainer = document.getElementById(`cartId-(${bookmarkId})`).style.display = "none";
+        }
+
+// const handleDeleteBookmark = (bookmarkId) =>{
+//     console.log(bookmarkId);
+//     const filteredBookmarks = cardHistory.filter(id => {
+//         console.log(id);
+//         if(id.id === bookmarkId ){
+//             document.getElementById(`cartId-(${bookmarkId})`).style.display = "none";
+//         }
+//     })
+//     cardHistory = filteredBookmarks;
+//     showHistory(cardHistory);
+// }
 
 
-const loadModal = async(id) => {
+
+
+const loadModal = async (id) => {
     const url = `https://openapi.programming-hero.com/api/plant/${id}`
     const res = await fetch(url);
     const data = await res.json();
@@ -76,11 +157,11 @@ const loadModal = async(id) => {
 }
 
 const displayModal = (information) => {
-    console.log(information);
+    //  console.log(information);
     const informationContainer = document.getElementById('informationContainer');
     informationContainer.innerHTML = `
                     <div class="bg-white p-5 space-y-2 h-full  rounded-xl">
-                        <h2 class="text-xl font-bold">${information.name}</h2>
+                       <h2 class="text-xl font-bold">${information.name}</h2>
                         <img class="w-full h-55 rounded-xl" src="${information.image}" alt="">
                         <h2 class="font-bold">Category: ${information.category}</h2>
                         <h3 class="font-bold">Price: ${information.price}</h3>
@@ -102,9 +183,9 @@ const displayCategoriesCard = (cards) => {
 
     cards.forEach(data => {
 
-
+        // onclick="loadHistory(${data.id})"
         const card = document.createElement("div");
-        card.innerHTML = `<div class="bg-white p-5 space-y-3 h-full  rounded-xl">
+        card.innerHTML = `<div id="${data.id}" class="bg-white p-5 space-y-3 h-full  rounded-xl">
                     <img class="w-full h-40 rounded-xl" src="${data.image}" alt="">
                     <h2 onclick="loadModal(${data.id})" class="text-xl cursor-pointer font-bold">${data.name}</h2>
                     <p>${data.description}</p>
@@ -112,9 +193,10 @@ const displayCategoriesCard = (cards) => {
                         <button class="btn btn-prymary rounded-3xl bg-green-500">${data.category}</button>
                         <h2 class="font-bold">$ ${data.price}</h2>
                     </div>
-                    <a onclick="loadHistory(${data.id})" class="btn btn-active btn-success rounded-3xl  w-full hover:text-white hover:bg-[#15803D] ">Add to Cart</a>
+                    <a  class="btn btn-active btn-success rounded-3xl  w-full hover:text-white hover:bg-[#15803D] ">Add to Cart</a>
                 </div>`;
         cardContainer.append(card);
+        manageSpinner(false);
     });
 
 };
@@ -174,6 +256,7 @@ const displayCategories = (categories) => {
             }')" class="transparent-btn p-2 rounded-sm  categories-btn  border-none outline-none w-full hover:text-white bg-transparent hover:bg-green-400 flex justify-start">${cate.category_name
             }</button>`;
         allCategories.append(categoriesDiv);
+        manageSpinner(false);
     });
 }
 loadCategories();
